@@ -284,7 +284,7 @@ const Dashboard = ({ children }) => {
           </div>
           <div 
             className={`nav-item ${isActivePath('/test-runs') ? 'active' : ''}`}
-            onClick={() => navigate('/test-runs')}
+            onClick={() => navigate('/testrun')}
           >
             <span className="nav-icon">📋</span>
             <span>Test Runs</span>

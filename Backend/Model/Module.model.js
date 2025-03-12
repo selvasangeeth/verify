@@ -18,6 +18,10 @@ const moduleSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Project'
     },
+    lastTested :{
+        type: "Date",
+        value: new Date().toISOString()
+    },
     timestamp:{
         type:Date,
         default:Date.now()

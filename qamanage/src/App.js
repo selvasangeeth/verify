@@ -13,6 +13,8 @@ import Scenarios from './components/Scenarios';
 import TestCases from './components/TestCases';
 import Modules from './components/Modules';
 import LogList from './components/LogList'; // Import LogList
+import Testrun from "./components/Testrun";
+
 
 function App() {
   return (
@@ -40,6 +42,7 @@ function App() {
             }
           />
           <Route path="/activity" element={<Dashboard><LogList /></Dashboard>} /> {/* Add LogList route */}
+          <Route path ="/testrun" element={<Testrun/>}/>
         </Routes>
       </BrowserRouter>
     </Provider>

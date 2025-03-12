@@ -9,13 +9,15 @@ const getAllTestRuns = async (req, res) => {
     if (!scenarios || scenarios.length === 0) {
       return res.status(404).json({ msg: "No test scenarios found" });
     }
-
+     console.log("sjkdn");
     // Step 2: Iterate over all scenarios and calculate the test stats
     const result = [];
+    // console.log(scenarios);
 
     for (const scenario of scenarios) {
       // Step 3: Fetch all test runs associated with the scenario
       const testRuns = await testRunModel.find({ scenarioId: scenario._id });
+      // console.log(testRuns);
 
       if (testRuns && testRuns.length > 0) {
         // Step 4: Group test runs by testRegion

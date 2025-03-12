@@ -9,6 +9,7 @@ const projectRoute = require("./Routes/ProjectRoutes");
 const moduleRoute = require("./Routes/ModuleRoutes");
 const testCaseRoute = require("./Routes/TestcaseRoutes");
 const path = require('path');
+const testRunRoute = require("./Routes/TestRunRoutes")
 
 condb();
 
@@ -28,6 +29,8 @@ app.use("/",projectRoute);
 app.use("/",moduleRoute);
 app.use("/",scenarioRoute);
 app.use("/",testCaseRoute);
+app.use("/",testRunRoute);
+
 
 
 

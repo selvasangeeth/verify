@@ -43,7 +43,7 @@ const Modules = () => {
       }
       
       console.log("hii");
-      console.log(response.data.data);
+      console.log("Module"+response.data.data);
     } catch (error) {
       console.error('Error fetching modules:', error);
       setError('Failed to fetch modules');
@@ -148,7 +148,7 @@ const Modules = () => {
                   <div className="id-text">{module.moduleId}</div>
                 </td>
                 <td>
-                  <div>{module.subModuleName}</div>
+                  <div>{module.subModule}</div>
                 </td>
                 <td>
                   <div>{module.lastTestedBy}</div>

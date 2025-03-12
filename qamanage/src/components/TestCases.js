@@ -197,7 +197,7 @@ const TestCases = () => {
                 </td>
                 <td>
                   <span className={`status-badge ${testCase.status?.toLowerCase()}`}>
-                    {testCase.status}
+                    {testCase.testStatus}
                   </span>
                 </td>
                 <td>
@@ -229,7 +229,7 @@ const TestCases = () => {
           scenarioId={scenarioId}
           moduleId={moduleId}
           projectId={projectId}
-          // testCaseId={modalState.testCase.testCaseId}
+          testCasei={modalState.testCase ? modalState.testCase._id : null} 
           onClose={handleModalClose}
           onSave={handleModalSave}
         />

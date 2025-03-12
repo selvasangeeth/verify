@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './TestCaseModal.css';
 import axios from "./axios";
 
-const TestCaseModal = ({ testCase, scenarioId, onClose, projectId, moduleId, testCaseId,onSave, mode = 'view' }) => {
+const TestCaseModal = ({ testCase, scenarioId, onClose, projectId, moduleId, testCasei,onSave, mode = 'view' }) => {
   const [editedCase, setEditedCase] = useState(testCase || {
     testCaseId: '',
     caseType: '',
@@ -23,7 +23,7 @@ const TestCaseModal = ({ testCase, scenarioId, onClose, projectId, moduleId, tes
     reference: '',
     bugReferenceId: '',
     bugPriority: '',
-    testCaseId :testCaseId,
+    testCaseId :testCasei,
   });
 
   const handleAddResult = () => {
@@ -124,7 +124,7 @@ const TestCaseModal = ({ testCase, scenarioId, onClose, projectId, moduleId, tes
     formData.append('comments', newResult.comments);
     formData.append('bugReferenceId', newResult.bugReferenceId);
     formData.append('bugPriority', newResult.bugPriority);
-    formData.append('testCaseId',"67d1541add9cf98e531a97cf");
+    formData.append('testCaseId',testCasei);
     formData.append('scenarioId',scenarioId);
     formData.append('projectId',projectId);
     formData.append('moduleId',moduleId);
@@ -139,6 +139,7 @@ const TestCaseModal = ({ testCase, scenarioId, onClose, projectId, moduleId, tes
    
     try {
       console.log(newResult.testRegion)
+      console.log("testcaseid ....: "+testCasei)
       const response = await axios.post('/updatedTestCase', formData, {
         headers: {
           "Content-Type": "multipart/form-data",
