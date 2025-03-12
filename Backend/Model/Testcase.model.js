@@ -62,7 +62,7 @@ const TestCaseSchema = new mongoose.Schema({
     type: Date,
     default: Date.now()
   },
-  testedBy: [
+  testedBy: 
     {
       testerName: {
         type: "string",
@@ -72,7 +72,7 @@ const TestCaseSchema = new mongoose.Schema({
         value: new Date().toISOString()
       }
     }
-  ]
+  
 });
 
 module.exports = mongoose.model('Testcase', TestCaseSchema);

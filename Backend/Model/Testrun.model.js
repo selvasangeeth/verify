@@ -28,7 +28,7 @@ const testRunSchema = mongoose.Schema({
     },
     testedCasePassedCount :{
         type :Number,
-        required :true
+        // required :true
     },
     testStatus :{
         type :String,

@@ -185,8 +185,9 @@ const TestCases = () => {
                 </td>
                 <td>
                   <div className="user-info">
-                    <div className="name">{testCase.testedBy?.name || '-'}</div>
-                    <div className="date">{testCase.testedBy?.date || ''}</div>
+                    <div className="name">{testCase.testedBy?.testerName||'-'}
+                    </div>
+                    {testCase.testedBy?.testDate?.substring(0, 10) || ''}
                   </div>
                 </td>
                 <td>
@@ -228,6 +229,7 @@ const TestCases = () => {
           scenarioId={scenarioId}
           moduleId={moduleId}
           projectId={projectId}
+          // testCaseId={modalState.testCase.testCaseId}
           onClose={handleModalClose}
           onSave={handleModalSave}
         />

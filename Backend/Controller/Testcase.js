@@ -72,18 +72,27 @@ const updateTestCaseStatus = async (req, res) => {
     try {
       const { testCaseId, testStatus, scenarioId,projectId,moduleId, testRegion, comments,bugReferenceId,bugPriority} = req.body;  
       const testerId = req.user.id;
-      console.log(request.body);
-      const reference= req.file;
-      const base64String = reference.buffer.toString('base64');
-      const testerName = user.findById(testerId);
-      const testCaseName =testCaseModel.findById(testCaseId);
-     
-     
+      console.log(testCaseId);
+      console.log("testerid :" + testerId);
+      console.log(req.body);
+      // if (!req.file) {
+      //   console.log("no file");
+      //   return res.status(400).json({ msg: "No file uploaded" });
+      // }
+      // const reference= req.file;
+      // console.log(reference);
+      // const base64String = reference.buffer.toString('base64');
+      console.log("j");
+      const tester = await user.findById(testerId).populate('Name'); 
+    
+    const testerName = tester ? tester.Name : "Unknown";
+    const testCaseName = await testCaseModel.findById(testCaseId).populate('testCaseId');
+     console.log("TestCaseName :"+testCaseName.testCaseId);
       if (!testStatus) {
         return res.status(400).json({ msg: "Status is required" });
       }
   
-
+   console.log("lwn");
       const updatedTestCase = await testCaseModel.findByIdAndUpdate(
         testCaseId,
         {
@@ -92,23 +101,21 @@ const updateTestCaseStatus = async (req, res) => {
           comments : comments,
           bugPriority :bugPriority,
           bugReferenceId :bugReferenceId,
-          reference :reference,
-          reference : base64String,
-          $push: {
+          // reference : base64String,
             testedBy: {
               testerName: testerName || "Unknown", 
               testDate: new Date().toISOString(), 
             },
-          },
+          
         },
         { new: true }  
       );
-  
+  console.log("successupdate");
       if (!updatedTestCase) {
         return res.status(404).json({ msg: "TestCase not found" });
       }
       const associatedScenario = await testScenarioModel.findById(scenarioId)      
-      .populate('scenarioName')
+      .populate('scenarioIdstr')
       .populate('taskId')   
       .populate('subTaskId')
 
@@ -116,17 +123,19 @@ const updateTestCaseStatus = async (req, res) => {
       const associatedProject = await project.findById(projectId);
 
      // TestRun Create
+     console.log("testlog came");
+     console.log("TestCase NAme : "+testCaseName.testCaseId);
           const testRunCreate = await testRunModel.create({
-              testCaseName:testCaseName,
+              testCaseName:testCaseName.testCaseId,
               scenarioId: scenarioId,
-              testScenario : associatedScenario.scenarioName,
+              testScenario : associatedScenario. scenarioIdstr,
               taskId : associatedScenario.taskId,
               subTaskId :associatedScenario.subTaskId,
               testRegion: testRegion,
               testStatus :testStatus,
+              testedBy:testerName
           })
-          console.log("testRun " + testRunCreate);
- 
+         
       const path = `${associatedProject.projectName}/${associatedModule.moduleName}/${associatedScenario.scenarioName}/${updatedTestCase.testCaseName}`;
 
       await log.create({
@@ -136,7 +145,7 @@ const updateTestCaseStatus = async (req, res) => {
         user: testerId,
         timestamp: Date.now(),
         path: path,
-        details: `Status updated to: ${status} and TestedBy: ${testerName}`,
+        details: `Status updated to: ${testStatus} and TestedBy: ${testerName}`,
       });
   
       return res.json({
