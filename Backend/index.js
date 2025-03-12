@@ -10,6 +10,8 @@ const moduleRoute = require("./Routes/ModuleRoutes");
 const testCaseRoute = require("./Routes/TestcaseRoutes");
 const path = require('path');
 
+condb();
+
 const cookieParser = require("cookie-parser");
 
 app.use(cors({
@@ -29,7 +31,7 @@ app.use("/",testCaseRoute);
 
 
 
-condb();
+
 
 
 app.listen(9000, () => {

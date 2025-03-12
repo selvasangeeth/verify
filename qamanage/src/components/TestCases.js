@@ -8,7 +8,7 @@ import TestCaseModal from './TestCaseModal';
 const TestCases = () => {
   const { projectId, moduleId, scenarioId } = useParams();
   const navigate = useNavigate();
-  const [testCases, setTestCases] = useState([]); // Ensure it's always an array
+  const [testCases, setTestCases] = useState([]);
   const [scenarioDetails, setScenarioDetails] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -39,7 +39,7 @@ const TestCases = () => {
 
   const fetchScenarioDetails = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/scenarios/detail/${scenarioId}`);
+      const response = await axios.get(`getTestCase/${scenarioId}`);
       if (response.data.success) {
         setScenarioDetails(response.data.data);
       }
@@ -52,11 +52,10 @@ const TestCases = () => {
     try {
       setLoading(true);
       setError(null);
-     console.log("ghvhdhvhd");
       const response = await axios.get(`/getTestCase/${scenarioId}`);
-      
+      console.log("test cases : ", response.data.data);
+
       if (response.data.msg === "success") {
-        // Ensure the data returned is an array
         setTestCases(Array.isArray(response.data.data) ? response.data.data : []);
       }
     } catch (error) {
@@ -127,7 +126,6 @@ const TestCases = () => {
     handleModalClose();
   };
 
-  // Ensure that filter is only called on an array
   const filteredTestCases = Array.isArray(testCases) ? testCases.filter(testCase =>
     testCase.testCaseId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     testCase.description?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -140,11 +138,8 @@ const TestCases = () => {
   return (
     <div className="testcases-container">
       <div className="top-section">
-        <div className="breadcrumb-section">
-        </div>
-        <div className="profile-section">
-          
-        </div>
+        <div className="breadcrumb-section"></div>
+        <div className="profile-section"></div>
       </div>
 
       <div className="search-section">
@@ -184,8 +179,8 @@ const TestCases = () => {
                 </td>
                 <td>
                   <div className="user-info">
-                    <div className="name">{testCase.createdBy.name}</div>
-                    <div className="date">{testCase.createdBy.date}</div>
+                    <div className="name">{testCase.createdBy?.Name}</div>
+                    <div className="date">{testCase.createdBy?.Date}</div>
                   </div>
                 </td>
                 <td>
@@ -212,11 +207,7 @@ const TestCases = () => {
                         <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                       </svg>
                     </button>
-                    <button 
-                      className="view-btn" 
-                      title="View"
-                      onClick={() => handleViewClick(testCase)}
-                    >
+                    <button className="view-btn" title="View" onClick={() => handleViewClick(testCase)}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                         <circle cx="12" cy="12" r="3" />
@@ -234,7 +225,9 @@ const TestCases = () => {
         <TestCaseModal
           testCase={modalState.testCase}
           mode={modalState.mode}
-          scenarioId={scenarioId} 
+          scenarioId={scenarioId}
+          moduleId={moduleId}
+          projectId={projectId}
           onClose={handleModalClose}
           onSave={handleModalSave}
         />

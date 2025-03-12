@@ -2,6 +2,7 @@ const modulee = require("../Model/Module.model");
 const project = require("../Model/Project.model");
 const log = require("../Model/Log.model");  // Ensure this is the correct log model
 const scenario = require("../Model/Scenarios.model");
+const testCaseModel = require("../Model/Testcase.model");
 
 // Create Scenario 
 const createScenario = async (req, res) => {
@@ -84,6 +85,13 @@ const createScenario = async (req, res) => {
       if (sc.length === 0) {
         return res.status(404).json({ msg: "No Scenario found for this project" });
       }
+
+        // Get the count of test cases for each scenario
+    for (let i = 0; i < sc.length; i++) {
+      const testCaseCount = await testCaseModel.countDocuments({ scenarioId: sc[i]._id });
+      sc[i].testCaseCount = testCaseCount; // Add the test case count to the scenario object
+    }
+     
       res.status(200).json({msg :"Success Scenario Fetch",data : sc });
     } catch (err) {
       console.error("Error fetching Scenarios:", err);

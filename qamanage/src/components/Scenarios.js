@@ -52,6 +52,7 @@ const Scenarios = () => {
       const response = await axios.get(`/getScenario/${moduleId}`);
       console.log(response.data);
       console.log('Scenarios response:', response.data);
+      console.log(response.data.testCaseCount)
 
       if (response.data.msg === "Success Scenario Fetch") {
         setScenarios(response.data.data);
@@ -194,7 +195,7 @@ const Scenarios = () => {
                     {new Date(scenario.timestamp).toLocaleDateString()}
                   </div>
                 </td>
-                <td>{scenario.casesCount}</td>
+                <td>{scenario.testCaseCount}</td>
                 <td>
                   <button className="action-btn">⋮</button>
                 </td>
